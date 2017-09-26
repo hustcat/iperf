@@ -1280,7 +1280,7 @@ iperf_init_test(struct iperf_test *test)
     struct iperf_stream *sp;
 
     if (test->protocol->init) {
-        if (test->protocol->init(test) < 0)
+        if (test->protocol->init(test) < 0) ///iperf_udp_init
             return -1;
     }
 
@@ -1294,7 +1294,7 @@ iperf_init_test(struct iperf_test *test)
     }
 
     if (test->on_test_start)
-        test->on_test_start(test);
+        test->on_test_start(test); ///iperf_on_test_start
 
     return 0;
 }

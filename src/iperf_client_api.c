@@ -57,12 +57,12 @@ iperf_create_streams(struct iperf_test *test)
     struct iperf_stream *sp;
 
     int orig_bind_port = test->bind_port;
-    for (i = 0; i < test->num_streams; ++i) {
+    for (i = 0; i < test->num_streams; ++i) { /// -P
 
         test->bind_port = orig_bind_port;
 	if (orig_bind_port)
 	    test->bind_port += i;
-        if ((s = test->protocol->connect(test)) < 0)
+        if ((s = test->protocol->connect(test)) < 0) /// iperf_udp_connect
             return -1;
 
 #if defined(HAVE_TCP_CONGESTION)
@@ -226,7 +226,7 @@ iperf_handle_message_client(struct iperf_test *test)
     int32_t err;
 
     /*!!! Why is this read() and not Nread()? */
-    if ((rval = read(test->ctrl_sck, (char*) &test->state, sizeof(signed char))) <= 0) {
+    if ((rval = read(test->ctrl_sck, (char*) &test->state, sizeof(signed char))) <= 0) { /// read state from server
         if (rval == 0) {
             i_errno = IECTRLCLOSE;
             return -1;
@@ -455,7 +455,7 @@ iperf_run_client(struct iperf_test * test)
     cpu_util(NULL);
 
     startup = 1;
-    while (test->state != IPERF_DONE) {
+    while (test->state != IPERF_DONE) { /// while
 	memcpy(&read_set, &test->read_set, sizeof(fd_set));
 	memcpy(&write_set, &test->write_set, sizeof(fd_set));
 	(void) gettimeofday(&now, NULL);
